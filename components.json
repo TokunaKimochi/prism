@@ -137,9 +137,11 @@
 		},
 		"bash": {
 			"title": "Bash",
-			"alias": "shell",
+			"alias": ["sh", "shell", "zsh"],
 			"aliasTitles": {
-				"shell": "Shell"
+				"sh": "Bourne Shell",
+				"shell": "Shell",
+				"zsh": "Zsh"
 			},
 			"owner": "zeitgeist87"
 		},
@@ -149,6 +151,11 @@
 		},
 		"batch": {
 			"title": "Batch",
+			"alias": ["bat", "cmd"],
+			"aliasTitles": {
+				"bat": "Batch",
+				"cmd": "cmd.exe"
+			},
 			"owner": "Golmote"
 		},
 		"bison": {
@@ -508,7 +515,7 @@
 		},
 		"lisp": {
 			"title": "Lisp",
-			"alias": ["emacs", "elisp", "emacs-lisp"],
+			"alias": ["emacs", "el", "elisp", "emacs-lisp"],
 			"owner": "JuanCaicedo"
 		},
 		"livescript": {

@@ -191,6 +191,7 @@
 	language['defun'].inside.arguments.inside.sublist = arglist;
 
 	Prism.languages.lisp = language;
+	Prism.languages.el = language;
 	Prism.languages.elisp = language;
 	Prism.languages.emacs = language;
 	Prism.languages['emacs-lisp'] = language;
