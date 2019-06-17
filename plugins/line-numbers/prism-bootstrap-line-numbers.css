@@ -2,19 +2,19 @@ pre.line-numbers {
 	position: relative;
 	padding-left: 53px;/* 3.8em; */
 	counter-reset: linenumber;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+	white-space: pre-wrap;
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
 }
 
 pre.line-numbers > code {
 	position: relative;
-    white-space: inherit;
-    word-break: break-all;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+	white-space: inherit;
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .line-numbers .line-numbers-rows {
@@ -34,17 +34,17 @@ pre.line-numbers > code {
 
 }
 
-	.line-numbers-rows > span {
-		pointer-events: none;
-		display: block;
-		counter-increment: linenumber;
-	}
+.line-numbers-rows > span {
+	pointer-events: none;
+	display: block;
+	counter-increment: linenumber;
+}
 
-		.line-numbers-rows > span:before {
-			content: counter(linenumber);
-			color: #bebec5;/* #999; */
-            text-shadow: 0 1px 0 #fff;
-			display: block;
-			padding-right: 0.8em;
-			text-align: right;
-		}
+.line-numbers-rows > span:before {
+	content: counter(linenumber);
+	color: #bebec5;/* #999; */
+	text-shadow: 0 1px 0 #fff;
+	display: block;
+	padding-right: 0.8em;
+	text-align: right;
+}
