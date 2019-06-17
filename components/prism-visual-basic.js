@@ -32,3 +32,5 @@ Prism.languages['visual-basic'] = {
 };
 
 Prism.languages.vb = Prism.languages['visual-basic'];
+Prism.languages.vba = Prism.languages['visual-basic'];
+Prism.languages.vbs = Prism.languages['visual-basic'];

@@ -154,6 +154,8 @@
 		"ts": "typescript",
 		"t4": "t4-cs",
 		"vb": "visual-basic",
+		"vba": "visual-basic",
+		"vbs": "visual-basic",
 		"xeoracube": "xeora",
 		"yml": "yaml"
 	}/*]*/;

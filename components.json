@@ -922,7 +922,12 @@
 		},
 		"visual-basic": {
 			"title": "Visual Basic",
-			"alias": "vb",
+			"alias": ["vb", "vba", "vbs"],
+			"aliasTitles": {
+				"vb": "Visual Basic",
+				"vba": "VBA",
+				"vbs": "VBScript"
+			},
 			"owner": "Golmote"
 		},
 		"wasm": {

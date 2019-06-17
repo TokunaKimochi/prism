@@ -133,6 +133,8 @@
 		"vim": "vim",
 		"visual-basic": "Visual Basic",
 		"vb": "Visual Basic",
+		"vba": "VBA",
+		"vbs": "VBScript",
 		"wasm": "WebAssembly",
 		"wiki": "Wiki markup",
 		"xeoracube": "XeoraCube",
