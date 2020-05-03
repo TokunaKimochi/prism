@@ -28,6 +28,10 @@ pre[class*="language-"] {
 	hyphens: none;
 }
 
+pre[class*="language-"].jp-monospace > code {
+	font-family: Osaka-Mono, 'BIZ UDGothic', monospace;
+}
+
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
 code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
 	text-shadow: none;
