@@ -1,4 +1,4 @@
-pre.line-numbers {
+pre[class*="language-"].line-numbers {
 	position: relative;
 	padding-left: 53px;/* 3.8em; */
 	counter-reset: linenumber;
@@ -9,7 +9,7 @@ pre.line-numbers {
 	box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
 }
 
-pre.line-numbers > code {
+pre[class*="language-"].line-numbers > code {
 	position: relative;
 	white-space: inherit;
 	word-break: break-all;
