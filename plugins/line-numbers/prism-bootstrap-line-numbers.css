@@ -40,7 +40,7 @@ pre[class*="language-"].line-numbers > code {
 
 }
 
-.line-numbers.scroll-x .line-numbers-rows.scroll-x {
+.line-numbers.scroll-x .line-numbers-rows {
 	border-right: 1px solid #bebec5;
 	box-shadow: 1px 0 0 #fff;
 }
