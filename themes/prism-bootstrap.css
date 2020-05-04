@@ -28,7 +28,8 @@ pre[class*="language-"] {
 	hyphens: none;
 }
 
-pre[class*="language-"].jp-monospace > code {
+pre[class*="language-"].jp-monospace,
+pre[class*="language-"].jp-monospace code[class*="language-"] {
 	font-family: Osaka-Mono, 'BIZ UDGothic', monospace;
 }
 
