@@ -16,6 +16,7 @@
 			"title": "Default",
 			"option": "default"
 		},
+		"prism-bootstrap232": "bootstrap232",
 		"prism-dark": "Dark",
 		"prism-funky": "Funky",
 		"prism-okaidia": {
@@ -145,9 +146,11 @@
 		},
 		"bash": {
 			"title": "Bash",
-			"alias": "shell",
+			"alias": ["sh", "shell", "zsh"],
 			"aliasTitles": {
-				"shell": "Shell"
+				"sh": "Bourne Shell",
+				"shell": "Shell",
+				"zsh": "Zsh"
 			},
 			"owner": "zeitgeist87"
 		},
@@ -157,6 +160,11 @@
 		},
 		"batch": {
 			"title": "Batch",
+			"alias": ["bat", "cmd"],
+			"aliasTitles": {
+				"bat": "Batch",
+				"cmd": "cmd.exe"
+			},
 			"owner": "Golmote"
 		},
 		"bbcode": {
@@ -607,7 +615,7 @@
 		},
 		"lisp": {
 			"title": "Lisp",
-			"alias": ["emacs", "elisp", "emacs-lisp"],
+			"alias": ["emacs", "el", "elisp", "emacs-lisp"],
 			"owner": "JuanCaicedo"
 		},
 		"livescript": {
@@ -1087,7 +1095,12 @@
 		},
 		"visual-basic": {
 			"title": "Visual Basic",
-			"alias": "vb",
+			"alias": ["vb", "vba", "vbs"],
+			"aliasTitles": {
+				"vb": "Visual Basic",
+				"vba": "VBA",
+				"vbs": "VBScript"
+			},
 			"owner": "Golmote"
 		},
 		"wasm": {

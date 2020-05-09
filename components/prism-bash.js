@@ -194,5 +194,7 @@
 		inside[toBeCopied[i]] = Prism.languages.bash[toBeCopied[i]];
 	}
 
+	Prism.languages.sh = Prism.languages.bash;
 	Prism.languages.shell = Prism.languages.bash;
+	Prism.languages.zsh = Prism.languages.bash;
 })(Prism);

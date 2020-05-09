@@ -96,4 +96,7 @@
 		'operator': /[&@]/,
 		'punctuation': /[()']/
 	};
+
+	Prism.languages.bat = Prism.languages.batch;
+	Prism.languages.cmd = Prism.languages.batch;
 }(Prism));

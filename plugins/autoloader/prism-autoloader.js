@@ -149,7 +149,11 @@
 		"js": "javascript",
 		"g4": "antlr4",
 		"adoc": "asciidoc",
+		"sh": "bash",
 		"shell": "bash",
+		"zsh": "bash",
+		"bat": "batch",
+		"cmd": "batch",
 		"shortcode": "bbcode",
 		"rbnf": "bnf",
 		"conc": "concurnas",
@@ -168,6 +172,7 @@
 		"context": "latex",
 		"ly": "lilypond",
 		"emacs": "lisp",
+		"el": "lisp",
 		"elisp": "lisp",
 		"emacs-lisp": "lisp",
 		"md": "markdown",
@@ -186,6 +191,8 @@
 		"ts": "typescript",
 		"t4": "t4-cs",
 		"vb": "visual-basic",
+		"vba": "visual-basic",
+		"vbs": "visual-basic",
 		"xeoracube": "xeora",
 		"yml": "yaml"
 	}/*]*/;
