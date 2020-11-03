@@ -6,15 +6,11 @@
 	var strings = [
 		// normal string
 		// 1 capturing group
-		/(["'])(?:\\[\s\S]|\$\([^)]+\)|`[^`]+`|(?!\1)[^\\])*\1/.source,
+		/(["'])(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|(?!\1)[^\\`$])*\1/.source,
 
 		// here doc
-		// 1 capturing group
-		/<<-?\s*(\w+?)[ \t]*(?!.)[\s\S]*?[\r\n]\2/.source,
-
-		// here doc quoted
-		// 2 capturing group
-		/<<-?\s*(["'])(\w+)\3[ \t]*(?!.)[\s\S]*?[\r\n]\4/.source
+		// 2 capturing groups
+		/<<-?\s*(["']?)(\w+)\2\s[\s\S]*?[\r\n]\3/.source
 	].join('|');
 
 	Prism.languages['shell-session'] = {
@@ -50,5 +46,7 @@
 		},
 		'output': /.(?:.*(?:[\r\n]|.$))*/
 	};
+
+	Prism.languages['sh-session'] = Prism.languages['shellsession'] = Prism.languages['shell-session'];
 
 }(Prism));
