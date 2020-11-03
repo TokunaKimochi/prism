@@ -203,7 +203,6 @@
 		"vhdl": "VHDL",
 		"vim": "vim",
 		"visual-basic": "Visual Basic",
-		"vba": "VBA",
 		"vb": "Visual Basic",
 		"vba": "VBA",
 		"vbs": "VBScript",
