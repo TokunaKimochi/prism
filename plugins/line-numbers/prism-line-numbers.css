@@ -1,12 +1,35 @@
 pre[class*="language-"].line-numbers {
 	position: relative;
-	padding-left: 3.8em;
+	padding-left: 53px;/* 3.8em; */
 	counter-reset: linenumber;
+	white-space: pre-wrap;
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+
+pre[class*="language-"].line-numbers.scroll-x {
+	white-space: pre;
+	word-break: normal;
+	word-wrap: normal;
+	overflow-wrap: normal;
+	overflow-x: scroll;
+	box-shadow: none;
 }
 
 pre[class*="language-"].line-numbers > code {
 	position: relative;
 	white-space: inherit;
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+pre[class*="language-"].line-numbers.scroll-x > code {
+	word-break: normal;
+	word-wrap: normal;
+	overflow-wrap: normal;
 }
 
 .line-numbers .line-numbers-rows {
@@ -14,10 +37,10 @@ pre[class*="language-"].line-numbers > code {
 	pointer-events: none;
 	top: 0;
 	font-size: 100%;
-	left: -3.8em;
+	left: -53px;/* -3.8em; */
 	width: 3em; /* works for line-numbers below 1000 lines */
 	letter-spacing: -1px;
-	border-right: 1px solid #999;
+	/* border-right: 1px solid #999; */
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -26,15 +49,21 @@ pre[class*="language-"].line-numbers > code {
 
 }
 
-	.line-numbers-rows > span {
-		display: block;
-		counter-increment: linenumber;
-	}
+.line-numbers.scroll-x .line-numbers-rows {
+	border-right: 1px solid #bebec5;
+	box-shadow: 1px 0 0 #fff;
+}
 
-		.line-numbers-rows > span:before {
-			content: counter(linenumber);
-			color: #999;
-			display: block;
-			padding-right: 0.8em;
-			text-align: right;
-		}
+.line-numbers-rows > span {
+	display: block;
+	counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+	content: counter(linenumber);
+	color: #bebec5;/* #999; */
+	text-shadow: 0 1px 0 #fff;
+	display: block;
+	padding-right: 0.8em;
+	text-align: right;
+}
