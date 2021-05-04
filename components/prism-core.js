@@ -16,11 +16,14 @@ var _self = (typeof window !== 'undefined')
  * @namespace
  * @public
  */
-var Prism = (function (_self){
+var Prism = (function (_self) {
 
 // Private helper vars
 var lang = /\blang(?:uage)?-([\w-]+)\b/i;
 var uniqueId = 0;
+
+// The grammar object for plaintext
+var plainTextGrammar = {};
 
 
 var _ = {
@@ -256,6 +259,14 @@ var _ = {
 	 */
 	languages: {
 		/**
+		 * The grammar for plain, unformatted text.
+		 */
+		plain: plainTextGrammar,
+		plaintext: plainTextGrammar,
+		text: plainTextGrammar,
+		txt: plainTextGrammar,
+
+		/**
 		 * Creates a deep copy of the language with the given id and appends the given tokens.
 		 *
 		 * If a token in `redef` also appears in the copied language, then the existing token in the copied language
@@ -396,7 +407,7 @@ var _ = {
 			root[inside] = ret;
 
 			// Update references in other language definitions
-			_.languages.DFS(_.languages, function(key, value) {
+			_.languages.DFS(_.languages, function (key, value) {
 				if (value === old && key != inside) {
 					this[key] = ret;
 				}
@@ -415,14 +426,13 @@ var _ = {
 				if (o.hasOwnProperty(i)) {
 					callback.call(o, i, o[i], type || i);
 
-					var property = o[i],
-					    propertyType = _.util.type(property);
+					var property = o[i];
+					var propertyType = _.util.type(property);
 
 					if (propertyType === 'Object' && !visited[objId(property)]) {
 						visited[objId(property)] = true;
 						DFS(property, callback, null, visited);
-					}
-					else if (propertyType === 'Array' && !visited[objId(property)]) {
+					} else if (propertyType === 'Array' && !visited[objId(property)]) {
 						visited[objId(property)] = true;
 						DFS(property, callback, i, visited);
 					}
@@ -445,7 +455,7 @@ var _ = {
 	 * @memberof Prism
 	 * @public
 	 */
-	highlightAll: function(async, callback) {
+	highlightAll: function (async, callback) {
 		_.highlightAllUnder(document, async, callback);
 	},
 
@@ -464,7 +474,7 @@ var _ = {
 	 * @memberof Prism
 	 * @public
 	 */
-	highlightAllUnder: function(container, async, callback) {
+	highlightAllUnder: function (container, async, callback) {
 		var env = {
 			callback: callback,
 			container: container,
@@ -477,7 +487,7 @@ var _ = {
 
 		_.hooks.run('before-all-elements-highlight', env);
 
-		for (var i = 0, element; element = env.elements[i++];) {
+		for (var i = 0, element; (element = env.elements[i++]);) {
 			_.highlightElement(element, async === true, env.callback);
 		}
 	},
@@ -510,7 +520,7 @@ var _ = {
 	 * @memberof Prism
 	 * @public
 	 */
-	highlightElement: function(element, async, callback) {
+	highlightElement: function (element, async, callback) {
 		// Find language
 		var language = _.util.getLanguage(element);
 		var grammar = _.languages[language];
@@ -547,6 +557,12 @@ var _ = {
 
 		_.hooks.run('before-sanity-check', env);
 
+		// plugins may change/add the parent/element
+		parent = env.element.parentElement;
+		if (parent && parent.nodeName.toLowerCase() === 'pre' && !parent.hasAttribute('tabindex')) {
+			parent.setAttribute('tabindex', '0');
+		}
+
 		if (!env.code) {
 			_.hooks.run('complete', env);
 			callback && callback.call(env.element);
@@ -563,7 +579,7 @@ var _ = {
 		if (async && _self.Worker) {
 			var worker = new Worker(_.filename);
 
-			worker.onmessage = function(evt) {
+			worker.onmessage = function (evt) {
 				insertHighlightedCode(evt.data);
 			};
 
@@ -572,8 +588,7 @@ var _ = {
 				code: env.code,
 				immediateClose: true
 			}));
-		}
-		else {
+		} else {
 			insertHighlightedCode(_.highlight(env.code, env.grammar, env.language));
 		}
 	},
@@ -634,7 +649,7 @@ var _ = {
 	 *     }
 	 * });
 	 */
-	tokenize: function(text, grammar) {
+	tokenize: function (text, grammar) {
 		var rest = grammar.rest;
 		if (rest) {
 			for (var token in rest) {
@@ -696,7 +711,7 @@ var _ = {
 				return;
 			}
 
-			for (var i=0, callback; callback = callbacks[i++];) {
+			for (var i = 0, callback; (callback = callbacks[i++]);) {
 				callback(env);
 			}
 		}
@@ -824,6 +839,25 @@ Token.stringify = function stringify(o, language) {
 };
 
 /**
+ * @param {RegExp} pattern
+ * @param {number} pos
+ * @param {string} text
+ * @param {boolean} lookbehind
+ * @returns {RegExpExecArray | null}
+ */
+function matchPattern(pattern, pos, text, lookbehind) {
+	pattern.lastIndex = pos;
+	var match = pattern.exec(text);
+	if (match && lookbehind && match[1]) {
+		// change the match to remove the text matched by the Prism lookbehind group
+		var lookbehindLength = match[1].length;
+		match.index += lookbehindLength;
+		match[0] = match[0].slice(lookbehindLength);
+	}
+	return match;
+}
+
+/**
  * @param {string} text
  * @param {LinkedList<string | Token>} tokenList
  * @param {any} grammar
@@ -855,7 +889,6 @@ function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
 				inside = patternObj.inside,
 				lookbehind = !!patternObj.lookbehind,
 				greedy = !!patternObj.greedy,
-				lookbehindLength = 0,
 				alias = patternObj.alias;
 
 			if (greedy && !patternObj.pattern.global) {
@@ -889,15 +922,15 @@ function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
 				}
 
 				var removeCount = 1; // this is the to parameter of removeBetween
+				var match;
 
-				if (greedy && currentNode != tokenList.tail.prev) {
-					pattern.lastIndex = pos;
-					var match = pattern.exec(text);
+				if (greedy) {
+					match = matchPattern(pattern, pos, text, lookbehind);
 					if (!match) {
 						break;
 					}
 
-					var from = match.index + (lookbehind && match[1] ? match[1].length : 0);
+					var from = match.index;
 					var to = match.index + match[0].length;
 					var p = pos;
 
@@ -931,24 +964,17 @@ function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
 					str = text.slice(pos, p);
 					match.index -= pos;
 				} else {
-					pattern.lastIndex = 0;
-
-					var match = pattern.exec(str);
+					match = matchPattern(pattern, 0, str, lookbehind);
+					if (!match) {
+						continue;
+					}
 				}
 
-				if (!match) {
-					continue;
-				}
-
-				if (lookbehind) {
-					lookbehindLength = match[1] ? match[1].length : 0;
-				}
-
-				var from = match.index + lookbehindLength,
-					matchStr = match[0].slice(lookbehindLength),
-					to = from + matchStr.length,
+				// eslint-disable-next-line no-redeclare
+				var from = match.index,
+					matchStr = match[0],
 					before = str.slice(0, from),
-					after = str.slice(to);
+					after = str.slice(from + matchStr.length);
 
 				var reach = pos + str.length;
 				if (rematch && reach > rematch.reach) {
@@ -974,10 +1000,18 @@ function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
 				if (removeCount > 1) {
 					// at least one Token object was removed, so we have to do some rematching
 					// this can only happen if the current pattern is greedy
-					matchGrammar(text, tokenList, grammar, currentNode.prev, pos, {
+
+					/** @type {RematchOptions} */
+					var nestedRematch = {
 						cause: token + ',' + j,
 						reach: reach
-					});
+					};
+					matchGrammar(text, tokenList, grammar, currentNode.prev, pos, nestedRematch);
+
+					// the reach might have been extended because of the rematching
+					if (rematch && nestedRematch.reach > rematch.reach) {
+						rematch.reach = nestedRematch.reach;
+					}
 				}
 			}
 		}
@@ -1013,6 +1047,7 @@ function LinkedList() {
 
 /**
  * Adds a new node with the given value to the list.
+ *
  * @param {LinkedList<T>} list
  * @param {LinkedListNode<T>} node
  * @param {T} value
@@ -1032,6 +1067,7 @@ function addAfter(list, node, value) {
 }
 /**
  * Removes `count` nodes after the given node. The given node will not be removed.
+ *
  * @param {LinkedList<T>} list
  * @param {LinkedListNode<T>} node
  * @param {number} count
@@ -1124,7 +1160,7 @@ if (!_.manual) {
 
 return _;
 
-})(_self);
+}(_self));
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports = Prism;
@@ -1156,7 +1192,7 @@ if (typeof global !== 'undefined') {
  * each another.
  * @global
  * @public
-*/
+ */
 
 /**
  * @typedef Grammar
@@ -1174,7 +1210,7 @@ if (typeof global !== 'undefined') {
  * @returns {void}
  * @global
  * @public
-*/
+ */
 
 /**
  * @callback HookCallback
